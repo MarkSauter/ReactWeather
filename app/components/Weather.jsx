@@ -31,6 +31,8 @@ class Weather extends React.Component {
   // It only works with babel stage-0 plugin
   handleSearch = (location) => {
     this.setState({
+      location: undefined,
+      temp: undefined,
       isLoading: true,
       errorMessage: undefined
     });
@@ -47,6 +49,24 @@ class Weather extends React.Component {
         errorMessage: error.message
       });
     });
+  }
+
+  componentDidMount () {
+    var location = this.props.location.query.location;
+
+    if (location && location.length > 0) {
+      this.handleSearch(location);
+      window.location.hash='#/';
+    }
+  }
+
+  componentWillReceiveProps (newProps) {
+    var location = newProps.location.query.location;
+
+    if (location && location.length > 0) {
+      this.handleSearch(location);
+      window.location.hash='#/';
+    }
   }
 
   render () {
